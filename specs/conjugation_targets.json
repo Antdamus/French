@@ -1,0 +1,141 @@
+{
+  "description": "Canonical production target policy for FrenchCards prompt generation and optional TSV coverage checks.",
+  "finite_subjects": ["je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles"],
+  "imperative_subjects": ["tu", "nous", "vous"],
+  "non_finite_person": "N/A",
+  "non_finite_subject": "—",
+  "targets": [
+    {
+      "mood": "indicatif",
+      "tense": "présent",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "indicatif",
+      "tense": "imparfait",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "indicatif",
+      "tense": "passé composé",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "indicatif",
+      "tense": "plus-que-parfait",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "indicatif",
+      "tense": "passé simple",
+      "kind": "finite",
+      "scopes": ["full", "literary"]
+    },
+    {
+      "mood": "indicatif",
+      "tense": "passé antérieur",
+      "kind": "finite",
+      "scopes": ["full", "literary"]
+    },
+    {
+      "mood": "indicatif",
+      "tense": "futur simple",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "indicatif",
+      "tense": "futur antérieur",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "conditionnel",
+      "tense": "présent",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "conditionnel",
+      "tense": "passé",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "subjonctif",
+      "tense": "présent",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "subjonctif",
+      "tense": "passé",
+      "kind": "finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "subjonctif",
+      "tense": "imparfait",
+      "kind": "finite",
+      "scopes": ["full", "literary"]
+    },
+    {
+      "mood": "subjonctif",
+      "tense": "plus-que-parfait",
+      "kind": "finite",
+      "scopes": ["full", "literary"]
+    },
+    {
+      "mood": "impératif",
+      "tense": "présent",
+      "kind": "imperative",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "impératif",
+      "tense": "passé",
+      "kind": "imperative",
+      "scopes": ["full", "literary"]
+    },
+    {
+      "mood": "infinitif",
+      "tense": "présent",
+      "kind": "non_finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "infinitif",
+      "tense": "passé",
+      "kind": "non_finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "participe",
+      "tense": "présent",
+      "kind": "non_finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "participe",
+      "tense": "passé",
+      "kind": "non_finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "gérondif",
+      "tense": "présent",
+      "kind": "non_finite",
+      "scopes": ["full", "modern", "literary"]
+    },
+    {
+      "mood": "gérondif",
+      "tense": "passé",
+      "kind": "non_finite",
+      "scopes": ["full", "literary"]
+    }
+  ]
+}

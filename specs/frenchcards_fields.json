@@ -1,0 +1,166 @@
+{
+  "note_type": "FrenchCards",
+  "field_count": 32,
+  "fields": [
+    {
+      "name": "Verb",
+      "required": true,
+      "description": "Infinitive of the target French verb."
+    },
+    {
+      "name": "VerbIPA",
+      "required": true,
+      "description": "Broad modern Parisian / standard metropolitan French IPA for the infinitive."
+    },
+    {
+      "name": "Meaning",
+      "required": true,
+      "description": "Compact core English meaning."
+    },
+    {
+      "name": "Regularity",
+      "required": true,
+      "description": "One of: regular / irregular / semi-irregular."
+    },
+    {
+      "name": "VerbGroup",
+      "required": true,
+      "description": "One of: -er / -ir / -re / irregular family / other."
+    },
+    {
+      "name": "PatternRule",
+      "required": true,
+      "description": "Concise conjugation rule or pattern."
+    },
+    {
+      "name": "StemChangeNote",
+      "required": false,
+      "description": "Concise stem alternation note if relevant."
+    },
+    {
+      "name": "IrregularityNote",
+      "required": false,
+      "description": "Concise warning for unusual forms if relevant."
+    },
+    {
+      "name": "Auxiliary",
+      "required": true,
+      "description": "One of: avoir / être / both / N/A."
+    },
+    {
+      "name": "PastParticiple",
+      "required": true,
+      "description": "Past participle of the verb."
+    },
+    {
+      "name": "AgreementNote",
+      "required": false,
+      "description": "Participle agreement or other important agreement note."
+    },
+    {
+      "name": "Register",
+      "required": true,
+      "description": "One of: spoken / standard written / literary / formal / mixed."
+    },
+    {
+      "name": "FrequencyTier",
+      "required": true,
+      "description": "One of: high / medium / literary."
+    },
+    {
+      "name": "Mood",
+      "required": true,
+      "description": "Grammatical mood."
+    },
+    {
+      "name": "Tense",
+      "required": true,
+      "description": "Grammatical tense or non-finite form name."
+    },
+    {
+      "name": "Person",
+      "required": true,
+      "description": "Grammatical person label, or N/A for non-finite forms."
+    },
+    {
+      "name": "SubjectFR",
+      "required": true,
+      "description": "Exact surface French subject, such as je, j’, tu, il, elle, on, nous, vous, ils, elles, or —."
+    },
+    {
+      "name": "CorePromptEN",
+      "required": true,
+      "description": "Main natural English production prompt."
+    },
+    {
+      "name": "CoreAnswerFR",
+      "required": true,
+      "description": "Main French answer as a natural sentence or phrase that realizes the exact target form."
+    },
+    {
+      "name": "CoreAnswerIPA",
+      "required": true,
+      "description": "Broad Parisian IPA for the entire CoreAnswerFR."
+    },
+    {
+      "name": "CorePronunciationNote",
+      "required": false,
+      "description": "Short practical pronunciation note."
+    },
+    {
+      "name": "AlternateAcceptedAnswers",
+      "required": false,
+      "description": "Optional semicolon-separated alternate accepted answers; empty if none."
+    },
+    {
+      "name": "IdiomPromptEN",
+      "required": false,
+      "description": "Optional English prompt for a genuine high-value idiom or chunk."
+    },
+    {
+      "name": "IdiomAnswerFR",
+      "required": false,
+      "description": "Optional French answer for the idiom production card."
+    },
+    {
+      "name": "IdiomAnswerIPA",
+      "required": false,
+      "description": "Optional broad Parisian IPA for IdiomAnswerFR."
+    },
+    {
+      "name": "IdiomPronunciationNote",
+      "required": false,
+      "description": "Optional short practical pronunciation note for the idiom answer."
+    },
+    {
+      "name": "FormPrompt",
+      "required": false,
+      "description": "Optional repair prompt for an irregular, confusable, or otherwise high-value isolated form."
+    },
+    {
+      "name": "FormAnswerFR",
+      "required": false,
+      "description": "Optional isolated French form answer."
+    },
+    {
+      "name": "FormAnswerIPA",
+      "required": false,
+      "description": "Optional broad Parisian IPA for FormAnswerFR."
+    },
+    {
+      "name": "FormPronunciationNote",
+      "required": false,
+      "description": "Optional short practical pronunciation note for the isolated form."
+    },
+    {
+      "name": "UsageNote",
+      "required": false,
+      "description": "Short note about use, nuance, style, or literary status."
+    },
+    {
+      "name": "AudioFR",
+      "required": false,
+      "description": "Audio field; leave blank for now."
+    }
+  ]
+}
