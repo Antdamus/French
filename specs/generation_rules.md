@@ -19,6 +19,43 @@ Whenever possible, each note should use a distinct prompt. Avoid near-duplicate 
 
 French answers should be natural, concise, and high-value. Avoid awkward literal translations when better French exists.
 
+## Tense-Aligned Production Prompts
+
+The English production prompt must express the meaning of the target French tense, not merely name the grammatical label.
+
+Good prompts make the tense obvious in English:
+
+- présent: `Say: he has a serious question.`
+- imparfait: `Say: he used to have a quiet office.`
+- passé composé: `Say: he had a clear answer yesterday.`
+- plus-que-parfait: `Say: he had already had a warning.`
+- futur simple: `Say: he will have a new role tomorrow.`
+- futur antérieur: `Say: he will have had enough time by Friday.`
+- conditionnel présent: `Say: he would have a better chance.`
+- conditionnel passé: `Say: he would have had a better chance.`
+- subjonctif présent: `Say: it is necessary that he have a valid reason.`
+- subjonctif passé: `Say: I am glad that he had the courage to answer.`
+
+The mood and tense label may appear as a short hint, but the English sentence itself must already cue the correct time, aspect, and mood. Avoid prompts such as `Say the il form of avoir in imparfait, in context` because they do not build active production.
+
+For typed-answer cards, the English prompt should be specific enough that one French answer is clearly expected. If a prompt allows many natural answers, make it more specific.
+
+## Didactic Variety
+
+Do not overuse the same nouns, adjectives, or `avoir` chunks across a generated file. High-frequency chunks such as `avoir faim`, `avoir besoin de`, `avoir raison`, `avoir peur`, and `avoir envie de` are valuable, but they should be distributed intentionally rather than repeated mechanically.
+
+Across a full verb file, vary:
+
+- concrete and abstract nouns
+- adjectives and short modifiers
+- affirmative and negative sentences
+- direct statements and questions
+- time expressions
+- causes, contrasts, and conditions
+- spoken, formal, and literary contexts where appropriate
+
+Variation must remain didactic: every sentence should still clearly train the exact target form.
+
 ## Register And Usage
 
 Use register labels carefully:

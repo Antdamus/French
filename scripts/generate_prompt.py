@@ -223,7 +223,13 @@ def render_template(template: str, values: dict[str, str]) -> str:
     for key, value in values.items():
         rendered = rendered.replace(f"{{{{{key}}}}}", value)
 
-    unresolved = sorted(set(part.split("}}", 1)[0] for part in rendered.split("{{")[1:]))
+    unresolved = sorted(
+        set(
+            name
+            for name in (part.split("}}", 1)[0] for part in rendered.split("{{")[1:])
+            if name in REQUIRED_PLACEHOLDERS
+        )
+    )
     if unresolved:
         raise SystemExit(
             "Template contains unresolved placeholder(s): "

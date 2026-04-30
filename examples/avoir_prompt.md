@@ -91,28 +91,38 @@ The Anki note type `FrenchCards` has exactly 3 card types. This repository docum
 
 Core Production is the main card and should always be meaningful.
 
-- Prompt side: `CorePromptEN`
-- Answer side: `CoreAnswerFR`
+- Prompt side: `CorePromptEN` plus typed answer entry for `CoreAnswerFR`
+- Answer side: Anki typed-answer comparison for `CoreAnswerFR`, then `CoreAnswerFR`
 - Supporting fields: `CoreAnswerIPA`, `CorePronunciationNote`, `AlternateAcceptedAnswers`, `UsageNote`
 
 Every note must include one exact target verb form in `CoreAnswerFR`. The English prompt should be natural, varied, and designed for active production rather than recognition.
+
+Use Anki's built-in typed-answer syntax rather than adding a new field:
+
+- Front template should include `{{type:CoreAnswerFR}}`
+- Back template should include `{{type:CoreAnswerFR}}`
 
 ## 2. Idiom Production
 
 Idiom Production is optional. Fill idiom fields only when the verb form naturally supports a genuinely high-value idiom, expression, or reusable chunk.
 
-- Prompt side: `IdiomPromptEN`
-- Answer side: `IdiomAnswerFR`
+- Prompt side: `IdiomPromptEN` plus typed answer entry for `IdiomAnswerFR`
+- Answer side: Anki typed-answer comparison for `IdiomAnswerFR`, then `IdiomAnswerFR`
 - Supporting fields: `IdiomAnswerIPA`, `IdiomPronunciationNote`
 
 Leave all idiom fields blank when there is no strong idiom or chunk. Do not invent weak idioms just to fill the card.
+
+Use Anki's built-in typed-answer syntax:
+
+- Front template should include `{{type:IdiomAnswerFR}}`
+- Back template should include `{{type:IdiomAnswerFR}}`
 
 ## 3. Form Repair
 
 Form Repair is optional. Fill form repair fields only when the target form is irregular, easy to confuse, unusually spelled, pronunciation-sensitive, or otherwise worth isolating.
 
-- Prompt side: `FormPrompt`
-- Answer side: `FormAnswerFR`
+- Prompt side: `FormPrompt` plus typed answer entry for `FormAnswerFR`
+- Answer side: Anki typed-answer comparison for `FormAnswerFR`, then `FormAnswerFR`
 - Supporting fields: `FormAnswerIPA`, `FormPronunciationNote`
 
 Example:
@@ -121,6 +131,11 @@ Example:
 - `FormAnswerFR`: `nous avons`
 
 Leave all form repair fields blank when the form does not need isolated repair practice.
+
+Use Anki's built-in typed-answer syntax:
+
+- Front template should include `{{type:FormAnswerFR}}`
+- Back template should include `{{type:FormAnswerFR}}`
 
 ## Conjugation Scope
 
@@ -337,9 +352,11 @@ A good row:
 
 - targets one exact verb form
 - uses a natural English production prompt
+- makes the target tense or mood clear through the English meaning, not only through a grammar label
 - gives a concise, idiomatic French answer
 - avoids translationese
 - uses a prompt that differs meaningfully from nearby rows
+- gives typed-answer learners one predictable answer to produce
 - labels register accurately
 - uses `UsageNote` only when it adds real value
 - leaves optional fields blank when they are not justified
@@ -357,8 +374,25 @@ Use varied situations such as:
 - cause and consequence
 - formal written prose
 - literary narration
+- questions and negative statements
+- nouns with useful adjectives
+- time phrases that clarify tense and aspect
 
 Variation should serve production. Do not make prompts strange just to be different.
+
+## Tense And Mood Cueing
+
+The English prompt should teach the form's use:
+
+- imparfait prompts should cue habit, background, description, or repeated past state
+- passé composé prompts should cue a completed past event
+- plus-que-parfait prompts should cue an event or state earlier than another past point
+- futur antérieur prompts should cue completion before a future deadline
+- conditionnel prompts should cue hypothetical, polite, or reported situations
+- subjunctive prompts should include a natural trigger such as need, doubt, emotion, or judgment
+- literary prompts should sound like formal or narrative prose
+
+Rows that merely say `use the [tense] form` without an English tense meaning are pedagogically weak, especially now that cards require typed answers.
 
 ## Literary Forms
 
@@ -400,6 +434,43 @@ English prompts must be natural and varied. Avoid recycling the same sentence pa
 Whenever possible, each note should use a distinct prompt. Avoid near-duplicate prompts unless repetition is pedagogically useful for contrast.
 
 French answers should be natural, concise, and high-value. Avoid awkward literal translations when better French exists.
+
+## Tense-Aligned Production Prompts
+
+The English production prompt must express the meaning of the target French tense, not merely name the grammatical label.
+
+Good prompts make the tense obvious in English:
+
+- présent: `Say: he has a serious question.`
+- imparfait: `Say: he used to have a quiet office.`
+- passé composé: `Say: he had a clear answer yesterday.`
+- plus-que-parfait: `Say: he had already had a warning.`
+- futur simple: `Say: he will have a new role tomorrow.`
+- futur antérieur: `Say: he will have had enough time by Friday.`
+- conditionnel présent: `Say: he would have a better chance.`
+- conditionnel passé: `Say: he would have had a better chance.`
+- subjonctif présent: `Say: it is necessary that he have a valid reason.`
+- subjonctif passé: `Say: I am glad that he had the courage to answer.`
+
+The mood and tense label may appear as a short hint, but the English sentence itself must already cue the correct time, aspect, and mood. Avoid prompts such as `Say the il form of avoir in imparfait, in context` because they do not build active production.
+
+For typed-answer cards, the English prompt should be specific enough that one French answer is clearly expected. If a prompt allows many natural answers, make it more specific.
+
+## Didactic Variety
+
+Do not overuse the same nouns, adjectives, or `avoir` chunks across a generated file. High-frequency chunks such as `avoir faim`, `avoir besoin de`, `avoir raison`, `avoir peur`, and `avoir envie de` are valuable, but they should be distributed intentionally rather than repeated mechanically.
+
+Across a full verb file, vary:
+
+- concrete and abstract nouns
+- adjectives and short modifiers
+- affirmative and negative sentences
+- direct statements and questions
+- time expressions
+- causes, contrasts, and conditions
+- spoken, formal, and literary contexts where appropriate
+
+Variation must remain didactic: every sentence should still clearly train the exact target form.
 
 ## Register And Usage
 
