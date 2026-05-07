@@ -3,54 +3,96 @@
 Generate Anki-ready TSV content for my existing Anki note type `FrenchCards`.
 
 Target verb: `avoir`
-Provided English meaning: not supplied; infer the compact core meaning.
+Provided root verb meaning: `to have`
+Target construction: `avoir besoin de quelque chose`
+Construction metadata supplied by user:
+- ConstructionID: `avoir_besoin_de_qqch`
+- ConstructionMeaningEN: `to need something`
+- SemanticFrame: `need/requirement`
+- ValencyClass: `de-complement`
+- ArgumentStructure: `subject experiencer + avoir besoin de + needed thing/action`
+- ArgumentSlots: `subject; de-complement`
+- ComplementTypes: `de + noun; de + infinitive; thing/idea/action`
+- PrepositionBehavior: `requires de before the needed complement`
+- PronounBehavior: `de + thing/idea/action -> en`
+- ConstructionContrastNote: `avoir quelque chose uses direct object pronouns le/la/les; avoir besoin de uses en`
+- AllowedForms: `ordinary finite forms; infinitive; participles; gerund; imperative only when semantically natural`
 Scope: `full`
 Subject policy: `split. Generate separate finite non-imperative notes for je, tu, il, elle, on, nous, vous, ils, and elles. Use j’ before a vowel or mute h where appropriate.`
-Idiom policy: `auto. Fill idiom fields only for genuine high-value idioms or chunks.`
-Form repair policy: `auto. Fill form repair fields only when the form is irregular, confusable, or worth isolating.`
+Form repair policy: `auto. Fill form repair fields only when the form is irregular, confusable, pronunciation-sensitive, or worth isolating.`
 
-This is an active-production deck, not a recognition deck. Generate one note per exact target form, with one main production sentence per note.
+This is an active-production deck, not a recognition deck. Generate one note per exact target form inside the target construction, with one main production sentence per note.
+
+Important: the target is a verb construction, not the whole dictionary verb. Keep the same `ConstructionID`, `ConstructionFR`, `ConstructionMeaningEN`, `SemanticFrame`, `ValencyClass`, `ArgumentStructure`, `ArgumentSlots`, `ComplementTypes`, `PrepositionBehavior`, `PronounBehavior`, `CliticOrderNote`, `ConstructionConstraints`, `ConstructionContrastNote`, and `AllowedForms` metadata consistent across rows unless a row-specific restriction genuinely applies.
 
 ## Canonical Field Order
 
 1. Verb
 2. VerbIPA
-3. Meaning
-4. Regularity
-5. VerbGroup
-6. PatternRule
-7. StemChangeNote
-8. IrregularityNote
-9. Auxiliary
-10. PastParticiple
-11. AgreementNote
-12. Register
-13. FrequencyTier
-14. Mood
-15. Tense
-16. Person
-17. SubjectFR
-18. CorePromptEN
-19. CoreAnswerFR
-20. CoreAnswerIPA
-21. CorePronunciationNote
-22. AlternateAcceptedAnswers
-23. IdiomPromptEN
-24. IdiomAnswerFR
-25. IdiomAnswerIPA
-26. IdiomPronunciationNote
-27. FormPrompt
-28. FormAnswerFR
-29. FormAnswerIPA
-30. FormPronunciationNote
-31. UsageNote
-32. AudioFR
+3. VerbCoreMeaning
+4. ConstructionID
+5. ConstructionFR
+6. ConstructionMeaningEN
+7. SemanticFrame
+8. ValencyClass
+9. ArgumentStructure
+10. ArgumentSlots
+11. ComplementTypes
+12. PrepositionBehavior
+13. PronounBehavior
+14. CliticOrderNote
+15. ConstructionConstraints
+16. ConstructionContrastNote
+17. AllowedForms
+18. Regularity
+19. VerbGroup
+20. PatternRule
+21. StemChangeNote
+22. IrregularityNote
+23. Auxiliary
+24. PastParticiple
+25. AgreementNote
+26. Register
+27. FrequencyTier
+28. Mood
+29. Tense
+30. Person
+31. SubjectFR
+32. CorePromptEN
+33. CoreAnswerFR
+34. CoreAnswerIPA
+35. CorePronunciationNote
+36. AlternateAcceptedAnswers
+37. ConstructionPromptEN
+38. ConstructionAnswerFR
+39. ConstructionAnswerIPA
+40. ConstructionPronunciationNote
+41. FormPrompt
+42. FormAnswerFR
+43. FormAnswerIPA
+44. FormPronunciationNote
+45. UsageNote
+46. AudioFR
 
 ## Field Summary
 
-- `Verb` (required): Infinitive of the target French verb.
+- `Verb` (required): Infinitive of the root French verb.
 - `VerbIPA` (required): Broad modern Parisian / standard metropolitan French IPA for the infinitive.
-- `Meaning` (required): Compact core English meaning.
+- `VerbCoreMeaning` (required): Compact broad English meaning of the root verb before construction-specific narrowing.
+- `ConstructionID` (required): Stable short identifier for this verb construction, such as avoir_besoin_de_qqch.
+- `ConstructionFR` (required): French construction pattern, such as avoir besoin de quelque chose.
+- `ConstructionMeaningEN` (required): English meaning of this construction or valency frame.
+- `SemanticFrame` (required): Short semantic frame label, such as possession, need, desire, perception, transfer, motion, or opinion.
+- `ValencyClass` (required): Concise valency class, such as direct object, à + person, à + thing/place, de-complement, reflexive, or infinitive complement.
+- `ArgumentStructure` (required): Human-readable function signature showing arguments and complements.
+- `ArgumentSlots` (required): Semicolon-separated input slots expected by the construction.
+- `ComplementTypes` (required): Allowed complement types, such as person, thing/idea, place, noun phrase, que-clause, or infinitive.
+- `PrepositionBehavior` (optional): Required preposition behavior, including à/de/zero-preposition restrictions.
+- `PronounBehavior` (optional): How complements pronominalize: le/la/les, lui/leur, y, en, tonic à lui/à elle, or none.
+- `CliticOrderNote` (optional): Relevant clitic ordering note if the construction combines pronouns.
+- `ConstructionConstraints` (optional): Restrictions, incompatibilities, or special conditions for this construction.
+- `ConstructionContrastNote` (optional): Contrast with nearby constructions of the same verb or misleading English patterns.
+- `AllowedForms` (required): Forms in scope that are natural for this construction; note restrictions such as rare imperative or non-finite limitations.
 - `Regularity` (required): One of: regular / irregular / semi-irregular.
 - `VerbGroup` (required): One of: -er / -ir / -re / irregular family / other.
 - `PatternRule` (required): Concise conjugation rule or pattern.
@@ -63,29 +105,35 @@ This is an active-production deck, not a recognition deck. Generate one note per
 - `FrequencyTier` (required): One of: high / medium / literary.
 - `Mood` (required): Grammatical mood.
 - `Tense` (required): Grammatical tense or non-finite form name.
-- `Person` (required): Grammatical person label, or N/A for non-finite forms.
+- `Person` (required): Subject/person label, or N/A for non-finite forms.
 - `SubjectFR` (required): Exact surface French subject, such as je, j’, tu, il, elle, on, nous, vous, ils, elles, or —.
-- `CorePromptEN` (required): Main natural English production prompt.
-- `CoreAnswerFR` (required): Main French answer as a natural sentence or phrase that realizes the exact target form.
+- `CorePromptEN` (required): Main typed-answer English production prompt for the conjugated construction.
+- `CoreAnswerFR` (required): Main French answer that realizes the exact target form and construction.
 - `CoreAnswerIPA` (required): Broad Parisian IPA for the entire CoreAnswerFR.
-- `CorePronunciationNote` (optional): Short practical pronunciation note.
+- `CorePronunciationNote` (optional): Short practical pronunciation, liaison, elision, or sound-production note for CoreAnswerFR.
 - `AlternateAcceptedAnswers` (optional): Optional semicolon-separated alternate accepted answers; empty if none.
-- `IdiomPromptEN` (optional): Optional English prompt for a genuine high-value idiom or chunk.
-- `IdiomAnswerFR` (optional): Optional French answer for the idiom production card.
-- `IdiomAnswerIPA` (optional): Optional broad Parisian IPA for IdiomAnswerFR.
-- `IdiomPronunciationNote` (optional): Optional short practical pronunciation note for the idiom answer.
-- `FormPrompt` (optional): Optional repair prompt for an irregular, confusable, or otherwise high-value isolated form.
+- `ConstructionPromptEN` (optional): Optional typed-answer prompt specifically testing construction/pronoun behavior.
+- `ConstructionAnswerFR` (optional): French answer for the construction/pronoun production card.
+- `ConstructionAnswerIPA` (optional): Broad Parisian IPA for ConstructionAnswerFR.
+- `ConstructionPronunciationNote` (optional): Short practical pronunciation note for ConstructionAnswerFR.
+- `FormPrompt` (optional): Optional repair prompt for an irregular, confusable, pronunciation-sensitive, or otherwise high-value isolated form.
 - `FormAnswerFR` (optional): Optional isolated French form answer.
 - `FormAnswerIPA` (optional): Optional broad Parisian IPA for FormAnswerFR.
-- `FormPronunciationNote` (optional): Optional short practical pronunciation note for the isolated form.
-- `UsageNote` (optional): Short note about use, nuance, style, or literary status.
+- `FormPronunciationNote` (optional): Short practical pronunciation note for the isolated form.
+- `UsageNote` (optional): Short note about use, nuance, style, construction restrictions, or literary status.
 - `AudioFR` (optional): Audio field; leave blank for now.
 
 ## Card Type Rules
 
 # FrenchCards Card Types
 
-The Anki note type `FrenchCards` has exactly 3 card types. This repository documents how prompts should fill the note fields that drive those cards. It does not modify the Anki templates directly.
+The Anki note type `FrenchCards` has exactly 3 card types. The deck is now construction-aware: each note targets one exact conjugated form inside one verb construction or valency frame.
+
+The core learning unit is:
+
+`Verb + Construction + Valency + Semantic Frame + Exact Form`
+
+Do not treat a verb as one flat dictionary meaning when its constructions behave differently. For example, `penser à quelque chose`, `penser à quelqu’un`, `penser que`, and `penser de` should be generated as separate construction targets because they differ in meaning, complement behavior, and pronoun behavior.
 
 ## 1. Core Production
 
@@ -94,28 +142,39 @@ Core Production is the main card and should always be meaningful.
 - Prompt side: `CorePromptEN` plus typed answer entry for `CoreAnswerFR`
 - Answer side: Anki typed-answer comparison for `CoreAnswerFR`, then `CoreAnswerFR`
 - Supporting fields: `CoreAnswerIPA`, `CorePronunciationNote`, `AlternateAcceptedAnswers`, `UsageNote`
+- Construction fields shown on the answer side: `ConstructionFR`, `ConstructionMeaningEN`, `SemanticFrame`, `ValencyClass`, `ArgumentStructure`, `ArgumentSlots`, `ComplementTypes`, `PrepositionBehavior`, `PronounBehavior`, `CliticOrderNote`, `ConstructionConstraints`, `ConstructionContrastNote`, `AllowedForms`
 
-Every note must include one exact target verb form in `CoreAnswerFR`. The English prompt should be natural, varied, and designed for active production rather than recognition.
+Every note must include one exact target verb form in `CoreAnswerFR` and must realize the target construction. The English prompt should cue both the tense/mood and the construction meaning.
 
-Use Anki's built-in typed-answer syntax rather than adding a new field:
+Use Anki's built-in typed-answer syntax:
 
 - Front template should include `{{type:CoreAnswerFR}}`
 - Back template should include `{{type:CoreAnswerFR}}`
 
-## 2. Idiom Production
+## 2. Construction Production
 
-Idiom Production is optional. Fill idiom fields only when the verb form naturally supports a genuinely high-value idiom, expression, or reusable chunk.
+Construction Production is optional, but strongly recommended when the construction has important valency, pronoun, preposition, reflexive, or complement behavior.
 
-- Prompt side: `IdiomPromptEN` plus typed answer entry for `IdiomAnswerFR`
-- Answer side: Anki typed-answer comparison for `IdiomAnswerFR`, then `IdiomAnswerFR`
-- Supporting fields: `IdiomAnswerIPA`, `IdiomPronunciationNote`
+- Prompt side: `ConstructionPromptEN` plus typed answer entry for `ConstructionAnswerFR`
+- Answer side: Anki typed-answer comparison for `ConstructionAnswerFR`, then `ConstructionAnswerFR`
+- Supporting fields: `ConstructionAnswerIPA`, `ConstructionPronunciationNote`
 
-Leave all idiom fields blank when there is no strong idiom or chunk. Do not invent weak idioms just to fill the card.
+Use this card to test high-value construction behavior such as:
+
+- direct object pronouns: `le`, `la`, `les`
+- indirect object pronouns: `lui`, `leur`
+- `de`-complements becoming `en`
+- `à` + thing/place/idea becoming `y`
+- `à` + person staying tonic in constructions like `penser à lui`
+- reflexive or lexicalized pronominal constructions
+- clitic order such as `me/te/se/nous/vous + le/la/les + lui/leur + y + en`
+
+Leave the construction-production fields blank only when the main core sentence already fully trains the construction and no additional construction behavior is worth isolating.
 
 Use Anki's built-in typed-answer syntax:
 
-- Front template should include `{{type:IdiomAnswerFR}}`
-- Back template should include `{{type:IdiomAnswerFR}}`
+- Front template should include `{{type:ConstructionAnswerFR}}`
+- Back template should include `{{type:ConstructionAnswerFR}}`
 
 ## 3. Form Repair
 
@@ -127,7 +186,7 @@ Form Repair is optional. Fill form repair fields only when the target form is ir
 
 Example:
 
-- `FormPrompt`: `avoir — présent — nous`
+- `FormPrompt`: `avoir — indicatif présent — nous`
 - `FormAnswerFR`: `nous avons`
 
 Leave all form repair fields blank when the form does not need isolated repair practice.
@@ -311,28 +370,49 @@ Use broad modern Parisian / standard metropolitan French IPA. The goal is produc
 
 Pronunciation notes should be short, practical, and production-oriented. Most notes should be one sentence fragment.
 
-Focus on:
+Use the pronunciation note fields actively:
+
+- `CorePronunciationNote` for the main sentence
+- `ConstructionPronunciationNote` for construction/pronoun cards
+- `FormPronunciationNote` for isolated forms
+
+Fill the relevant note field when the answer contains a production-sensitive issue:
 
 - liaison
 - elision
+- enchaînement
 - nasal vowels
 - silent final consonants
 - semivowels
-- important standard metropolitan pronunciation points
+- h aspiré blocking elision or liaison
+- /y/ vs /u/, /ø/ vs /œ/, or other high-risk contrasts
+- compound-tense liaison into `eu`
 
-Avoid:
+Leave the note blank only when there is no useful pronunciation warning.
 
-- long phonetics essays
-- dialect surveys
-- ultra-narrow allophones
-- repeating obvious information in every row
+## Liaison Guidance
+
+Call out liaison when it helps production, especially in common verb forms:
+
+- `nous avons` → /nuz‿avɔ̃/
+- `vous avez` → /vuz‿ave/
+- `ils ont` → /ilz‿ɔ̃/
+- `elles ont` → /ɛlz‿ɔ̃/
+- `nous avons eu` → /nuz‿avɔ̃z‿y/
+- `vous avez eu` → /vuz‿avez‿y/
+- `ils ont eu` → /ilz‿ɔ̃t‿y/
+
+Do not invent liaison where standard French would not normally make one. Note h aspiré when it blocks elision or liaison.
 
 ## Good Note Style
 
 - `Elide je before ai.`
 - `Liaison in nous avons.`
-- `Final t is silent before a consonant.`
+- `Liaison from avez into eu.`
+- `Final t in eut is normally silent.`
 - `Watch the nasal vowel /ɔ̃/.`
+- `Watch /y/ in eu.`
+- `No liaison before h aspiré.`
 
 ## Bad Note Style
 
@@ -346,17 +426,26 @@ Avoid:
 
 FrenchCards is an active-production system. A strong row helps the learner produce one exact form in a natural context.
 
+The learning unit is construction-aware:
+
+`verb + construction + valency + semantic frame + exact form`
+
+Do not flatten a verb into one English translation when its constructions behave differently.
+
 ## High-Value Rows
 
 A good row:
 
 - targets one exact verb form
+- targets one exact construction or valency frame
 - uses a natural English production prompt
 - makes the target tense or mood clear through the English meaning, not only through a grammar label
+- makes the target construction clear through the English meaning
 - gives a concise, idiomatic French answer
 - avoids translationese
 - uses a prompt that differs meaningfully from nearby rows
 - gives typed-answer learners one predictable answer to produce
+- gives accurate construction metadata, especially complement and pronoun behavior
 - labels register accurately
 - uses `UsageNote` only when it adds real value
 - leaves optional fields blank when they are not justified
@@ -380,6 +469,20 @@ Use varied situations such as:
 
 Variation should serve production. Do not make prompts strange just to be different.
 
+## Construction Quality
+
+Good construction cards identify:
+
+- the construction pattern, such as `avoir besoin de quelque chose`
+- the semantic frame, such as need/requirement
+- the valency class, such as `de`-complement
+- the input slots, such as subject plus needed thing/action
+- complement types, such as noun phrase or infinitive
+- pronoun behavior, such as `de + thing/action -> en`
+- contrast with misleading nearby frames, such as direct-object `avoir quelque chose`
+
+Rows are weak if they conjugate the root verb correctly but train the wrong construction or hide a major pronoun/preposition distinction.
+
 ## Tense And Mood Cueing
 
 The English prompt should teach the form's use:
@@ -400,9 +503,9 @@ Literary forms are active-production targets when included. Label them clearly a
 
 Do not mix literary forms into casual spoken prompts unless the contrast is intentional and explained in `UsageNote`.
 
-## Idiom Discipline
+## Construction Production Discipline
 
-Fill idiom fields only for genuine high-value idioms, expressions, or reusable chunks. A weak phrase is worse than a blank optional card.
+Fill construction-production fields only for genuine high-value construction behavior, pronoun behavior, preposition behavior, reflexive behavior, clitic behavior, or reusable chunks. A weak extra card is worse than a blank optional card.
 
 ## Form Repair Discipline
 
@@ -422,10 +525,39 @@ The deck is for active production, not passive recognition. Every included form 
 
 Each note represents:
 
-- one exact verb form
+- one exact verb construction or valency frame
+- one exact verb form inside that construction
 - one main production sentence or phrase
 
-The `CoreAnswerFR` must realize the target form exactly.
+The `CoreAnswerFR` must realize the target form exactly and must use the target construction exactly. The target is not merely `verb -> translation`; it is `verb + construction + valency + semantic frame`.
+
+## Construction Scope
+
+Generate one verb construction at a time. Do not mix unrelated valency frames in the same TSV unless the user explicitly requests a comparison set.
+
+Examples of separate construction targets:
+
+- `avoir quelque chose` = to have/possess something
+- `avoir besoin de quelque chose` = to need something
+- `avoir envie de + infinitive` = to feel like doing something
+- `penser à quelque chose` = to think about something; thing/idea can become `y`
+- `penser à quelqu’un` = to think about someone; normally `penser à lui/à elle`, not `lui penser`
+- `donner quelque chose à quelqu’un` = to give something to someone; direct object plus indirect object pronouns are possible
+- `s’en aller` = to leave/go away as a lexicalized pronominal construction
+
+Fill the construction metadata fields for every row:
+
+- `ConstructionID`
+- `ConstructionFR`
+- `ConstructionMeaningEN`
+- `SemanticFrame`
+- `ValencyClass`
+- `ArgumentStructure`
+- `ArgumentSlots`
+- `ComplementTypes`
+- `AllowedForms`
+
+Fill preposition, pronoun, clitic, constraint, and contrast fields when they are relevant. These fields are not decoration; they are the learner's map of the construction's input slots and syntactic behavior.
 
 ## Sentence Quality
 
@@ -434,6 +566,8 @@ English prompts must be natural and varied. Avoid recycling the same sentence pa
 Whenever possible, each note should use a distinct prompt. Avoid near-duplicate prompts unless repetition is pedagogically useful for contrast.
 
 French answers should be natural, concise, and high-value. Avoid awkward literal translations when better French exists.
+
+For typed-answer cards, the English prompt should be specific enough that one French answer is clearly expected. If a prompt allows many natural answers, make it more specific.
 
 ## Tense-Aligned Production Prompts
 
@@ -454,13 +588,13 @@ Good prompts make the tense obvious in English:
 
 The mood and tense label may appear as a short hint, but the English sentence itself must already cue the correct time, aspect, and mood. Avoid prompts such as `Say the il form of avoir in imparfait, in context` because they do not build active production.
 
-For typed-answer cards, the English prompt should be specific enough that one French answer is clearly expected. If a prompt allows many natural answers, make it more specific.
+The English prompt must also cue the construction. For example, if the target is `avoir besoin de quelque chose`, prompts should cue "need X", not merely "have X".
 
 ## Didactic Variety
 
-Do not overuse the same nouns, adjectives, or `avoir` chunks across a generated file. High-frequency chunks such as `avoir faim`, `avoir besoin de`, `avoir raison`, `avoir peur`, and `avoir envie de` are valuable, but they should be distributed intentionally rather than repeated mechanically.
+Do not overuse the same nouns, adjectives, or chunks across a generated file. High-frequency chunks are valuable, but they should be distributed intentionally rather than repeated mechanically.
 
-Across a full verb file, vary:
+Across a full construction file, vary:
 
 - concrete and abstract nouns
 - adjectives and short modifiers
@@ -470,7 +604,7 @@ Across a full verb file, vary:
 - causes, contrasts, and conditions
 - spoken, formal, and literary contexts where appropriate
 
-Variation must remain didactic: every sentence should still clearly train the exact target form.
+Variation must remain didactic: every sentence should still clearly train the exact target form and construction.
 
 ## Register And Usage
 
@@ -482,7 +616,7 @@ Use register labels carefully:
 - `formal`
 - `mixed`
 
-Use `UsageNote` for short notes about nuance, style, literary status, or common restrictions. Literary forms are still active-production targets when included.
+Use `UsageNote` for short notes about nuance, style, literary status, construction restrictions, or common traps. Literary forms are still active-production targets when included.
 
 ## IPA And Pronunciation
 
@@ -490,27 +624,46 @@ Use broad modern Parisian / standard metropolitan French IPA. Do not use ultra-n
 
 Follow the detailed policy in `specs/pronunciation_policy.md`.
 
-Pronunciation notes must be short, practical, and production-oriented. Focus on:
+Pronunciation notes must be short, practical, and production-oriented.
 
-- liaison
-- elision
-- nasal vowels
-- silent final consonants
-- semivowels
-- important standard metropolitan pronunciation points
+## Liaison, Elision, And Sound Rules
 
-Do not write long phonetics essays.
+Pronunciation notes are required when the answer contains a production-sensitive sound rule. Use the appropriate field:
+
+- `CorePronunciationNote` for `CoreAnswerFR`
+- `ConstructionPronunciationNote` for `ConstructionAnswerFR`
+- `FormPronunciationNote` for `FormAnswerFR`
+
+Fill the note when relevant for:
+
+- liaison, such as `nous avons`, `vous avez`, `ils ont`, `elles ont`
+- liaison into compound forms, such as `nous avons eu`, `vous avez eu`, `ils ont eu`
+- elision, such as `je` becoming `j’`
+- enchaînement, where a final pronounced consonant links into the next word
+- silent final consonants, especially in literary forms such as `eut`
+- h aspiré blocking elision or liaison
+- nasal vowels such as /ɔ̃/, /ɑ̃/, /ɛ̃/
+- high-risk IPA contrasts such as /y/ in `eu`
+
+Good pronunciation notes are short:
+
+- `Elide je before ai.`
+- `Liaison in nous avons.`
+- `Liaison from avez into eu.`
+- `Final t in eut is normally silent.`
+- `Watch /y/ in eu.`
+- `No liaison before h aspiré.`
 
 ## Optional Fields
 
-Fill idiom fields only when there is a genuine high-value idiom, expression, or reusable chunk:
+Fill construction-production fields when there is a genuine high-value construction, pronoun, preposition, reflexive, clitic, or complement behavior worth isolating:
 
-- `IdiomPromptEN`
-- `IdiomAnswerFR`
-- `IdiomAnswerIPA`
-- `IdiomPronunciationNote`
+- `ConstructionPromptEN`
+- `ConstructionAnswerFR`
+- `ConstructionAnswerIPA`
+- `ConstructionPronunciationNote`
 
-Fill form repair fields only when the form is irregular, easy to confuse, or worth isolating:
+Fill form repair fields only when the form is irregular, easy to confuse, pronunciation-sensitive, or worth isolating:
 
 - `FormPrompt`
 - `FormAnswerFR`
@@ -538,7 +691,7 @@ The downstream model must output:
 - no header row
 - no column titles
 - exactly one note per line
-- exactly 32 tab-separated fields per line
+- exactly 46 tab-separated fields per line
 - fields in the exact `FrenchCards` order
 - empty cells for unused optional fields
 - every field on a single line
@@ -554,8 +707,8 @@ The response is wrong if:
 
 - there is any prose before or after the TSV
 - there is a header row
-- any row has fewer than 32 fields
-- any row has more than 32 fields
+- any row has fewer than 46 fields
+- any row has more than 46 fields
 - the column order differs from the specified order
 - optional blanks are omitted instead of represented as empty cells
 - any cell contains literal tabs or line breaks
@@ -567,23 +720,26 @@ Before producing the final TSV, the downstream model must privately perform this
 
 ### 1. Structure Audit
 
-- every row has exactly 32 fields
+- every row has exactly 46 fields
 - field order exactly matches `FrenchCards`
 - no header row
 - no missing cells caused by forgotten tabs
 - optional blanks are represented by empty cells, not omitted columns
 - no tabs or line breaks inside cell content
 
-### 2. Conjugation Audit
+### 2. Construction And Conjugation Audit
 
-- the French answer actually contains the target form for that verb, mood, tense, and person
+- the French answer actually contains the target form for this verb, mood, tense, and person
+- the French answer uses the target construction, not another construction of the same root verb
 - the person and `SubjectFR` are correct
 - imperative rows only use `tu`, `nous`, and `vous`
 - non-finite rows use `Person = N/A` and `SubjectFR = —`
+- construction metadata is consistent with the answer's syntax, complement behavior, and pronoun behavior
 
 ### 3. Naturalness Audit
 
 - English prompts are natural and varied
+- English prompts cue the correct tense, mood, and construction
 - French answers are natural, concise, and high-value for learning
 - awkward literal translations are avoided when better French exists
 - near-duplicate prompts are avoided whenever reasonably possible
@@ -592,11 +748,12 @@ Before producing the final TSV, the downstream model must privately perform this
 
 - IPA is broad modern Parisian / standard metropolitan
 - pronunciation notes are short and practical
+- liaison, elision, enchaînement, nasal vowels, silent final consonants, h aspiré behavior, and /y/ vs /u/ are noted when relevant
 - no overlong phonetics essays
 
 ### 5. Optional-Field Audit
 
-- idiom fields are only filled when there is a genuine idiom or high-value chunk
+- construction-production fields are filled only when there is a genuine construction behavior or reusable chunk worth isolating
 - form repair fields are only filled when justified
 - unused optional fields are left blank
 
@@ -611,28 +768,31 @@ Before producing the final TSV, the downstream model must privately perform this
 - no prose before or after
 - no code fences
 - no extra blank lines at start or end
-- no replacement question marks or mojibake in French, IPA, tense labels, or form prompts
+- no replacement question marks or mojibake in French, IPA, tense labels, construction fields, or form prompts
 
 ## Silent Self-Audit Required
 
 Perform a private self-audit before producing the final TSV. Do not show the audit.
 
 1. STRUCTURE AUDIT
-- every row has exactly 32 fields
+- every row has exactly 46 fields
 - field order exactly matches `FrenchCards`
 - no header row
 - no missing cells caused by forgotten tabs
 - optional blanks are represented by empty cells, not omitted columns
 - no tabs or line breaks inside cell content
 
-2. CONJUGATION AUDIT
+2. CONSTRUCTION AND CONJUGATION AUDIT
 - the French answer actually contains the target form for this verb, mood, tense, and person
+- the French answer uses the target construction, not another construction of the same root verb
 - the person and `SubjectFR` are correct
 - imperative rows only use `tu`, `nous`, and `vous`
 - non-finite rows use `Person = N/A` and `SubjectFR = —`
+- construction metadata is consistent with syntax, complement behavior, and pronoun behavior
 
 3. NATURALNESS AUDIT
 - English prompts are natural and varied
+- English prompts cue the correct tense, mood, and construction
 - French answers are natural, concise, and high-value for learning
 - avoid awkward literal translations when better French exists
 - avoid near-duplicate prompts whenever reasonably possible
@@ -640,10 +800,11 @@ Perform a private self-audit before producing the final TSV. Do not show the aud
 4. PRONUNCIATION AUDIT
 - IPA is broad modern Parisian / standard metropolitan
 - pronunciation notes are short and practical
+- liaison, elision, enchaînement, nasal vowels, silent final consonants, h aspiré behavior, and /y/ vs /u/ are noted when relevant
 - no overlong phonetics essays
 
 5. OPTIONAL-FIELD AUDIT
-- idiom fields are only filled when there is a genuine idiom or high-value chunk
+- construction-production fields are only filled when there is a genuine construction behavior or reusable chunk worth isolating
 - form repair fields are only filled when justified
 - unused optional fields are left blank
 
@@ -656,7 +817,7 @@ Perform a private self-audit before producing the final TSV. Do not show the aud
 - no prose before or after
 - no code fences
 - no extra blank lines at start or end
-- no replacement question marks or mojibake in French, IPA, tense labels, or form prompts
+- no replacement question marks or mojibake in French, IPA, tense labels, construction fields, or form prompts
 
 ## Output Instructions
 
@@ -666,14 +827,14 @@ Do not output Markdown code fences, explanations, commentary, numbering, a heade
 
 Encoding requirement: output must be valid UTF-8. Preserve all Unicode characters exactly, including French accents, curly apostrophes, em dashes, and IPA symbols such as ʁ, ɛ, ɔ̃, œ, ø, ɥ, ʒ, and ‿. Do not replace unsupported characters with question marks or mojibake. If UTF-8 cannot be preserved, stop instead of emitting damaged TSV.
 
-Output exactly one note per line. Each line must contain exactly 32 tab-separated fields in the exact `FrenchCards` field order. Optional unused fields must be empty cells, but their columns must still be preserved.
+Output exactly one note per line. Each line must contain exactly 46 tab-separated fields in the exact `FrenchCards` field order. Optional unused fields must be empty cells, but their columns must still be preserved.
 
 Every field must stay on a single line. Do not put literal tab characters or literal line breaks inside field content. Normalize internal line breaks to spaces. Preserve UTF-8 characters such as accents and IPA symbols.
 
 Malformed TSV is a failure. The response is wrong if:
 - there is any prose before or after the TSV
 - there is a header row
-- any row has fewer than 32 fields
-- any row has more than 32 fields
+- any row has fewer than 46 fields
+- any row has more than 46 fields
 - the column order differs from the specified order
 - any accent, apostrophe, em dash, or IPA symbol has been replaced by `?` or mojibake

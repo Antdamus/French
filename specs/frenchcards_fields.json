@@ -1,11 +1,11 @@
 {
   "note_type": "FrenchCards",
-  "field_count": 32,
+  "field_count": 46,
   "fields": [
     {
       "name": "Verb",
       "required": true,
-      "description": "Infinitive of the target French verb."
+      "description": "Infinitive of the root French verb."
     },
     {
       "name": "VerbIPA",
@@ -13,9 +13,79 @@
       "description": "Broad modern Parisian / standard metropolitan French IPA for the infinitive."
     },
     {
-      "name": "Meaning",
+      "name": "VerbCoreMeaning",
       "required": true,
-      "description": "Compact core English meaning."
+      "description": "Compact broad English meaning of the root verb before construction-specific narrowing."
+    },
+    {
+      "name": "ConstructionID",
+      "required": true,
+      "description": "Stable short identifier for this verb construction, such as avoir_besoin_de_qqch."
+    },
+    {
+      "name": "ConstructionFR",
+      "required": true,
+      "description": "French construction pattern, such as avoir besoin de quelque chose."
+    },
+    {
+      "name": "ConstructionMeaningEN",
+      "required": true,
+      "description": "English meaning of this construction or valency frame."
+    },
+    {
+      "name": "SemanticFrame",
+      "required": true,
+      "description": "Short semantic frame label, such as possession, need, desire, perception, transfer, motion, or opinion."
+    },
+    {
+      "name": "ValencyClass",
+      "required": true,
+      "description": "Concise valency class, such as direct object, à + person, à + thing/place, de-complement, reflexive, or infinitive complement."
+    },
+    {
+      "name": "ArgumentStructure",
+      "required": true,
+      "description": "Human-readable function signature showing arguments and complements."
+    },
+    {
+      "name": "ArgumentSlots",
+      "required": true,
+      "description": "Semicolon-separated input slots expected by the construction."
+    },
+    {
+      "name": "ComplementTypes",
+      "required": true,
+      "description": "Allowed complement types, such as person, thing/idea, place, noun phrase, que-clause, or infinitive."
+    },
+    {
+      "name": "PrepositionBehavior",
+      "required": false,
+      "description": "Required preposition behavior, including à/de/zero-preposition restrictions."
+    },
+    {
+      "name": "PronounBehavior",
+      "required": false,
+      "description": "How complements pronominalize: le/la/les, lui/leur, y, en, tonic à lui/à elle, or none."
+    },
+    {
+      "name": "CliticOrderNote",
+      "required": false,
+      "description": "Relevant clitic ordering note if the construction combines pronouns."
+    },
+    {
+      "name": "ConstructionConstraints",
+      "required": false,
+      "description": "Restrictions, incompatibilities, or special conditions for this construction."
+    },
+    {
+      "name": "ConstructionContrastNote",
+      "required": false,
+      "description": "Contrast with nearby constructions of the same verb or misleading English patterns."
+    },
+    {
+      "name": "AllowedForms",
+      "required": true,
+      "description": "Forms in scope that are natural for this construction; note restrictions such as rare imperative or non-finite limitations."
     },
     {
       "name": "Regularity",
@@ -80,7 +150,7 @@
     {
       "name": "Person",
       "required": true,
-      "description": "Grammatical person label, or N/A for non-finite forms."
+      "description": "Subject/person label, or N/A for non-finite forms."
     },
     {
       "name": "SubjectFR",
@@ -90,12 +160,12 @@
     {
       "name": "CorePromptEN",
       "required": true,
-      "description": "Main natural English production prompt."
+      "description": "Main typed-answer English production prompt for the conjugated construction."
     },
     {
       "name": "CoreAnswerFR",
       "required": true,
-      "description": "Main French answer as a natural sentence or phrase that realizes the exact target form."
+      "description": "Main French answer that realizes the exact target form and construction."
     },
     {
       "name": "CoreAnswerIPA",
@@ -105,7 +175,7 @@
     {
       "name": "CorePronunciationNote",
       "required": false,
-      "description": "Short practical pronunciation note."
+      "description": "Short practical pronunciation, liaison, elision, or sound-production note for CoreAnswerFR."
     },
     {
       "name": "AlternateAcceptedAnswers",
@@ -113,29 +183,29 @@
       "description": "Optional semicolon-separated alternate accepted answers; empty if none."
     },
     {
-      "name": "IdiomPromptEN",
+      "name": "ConstructionPromptEN",
       "required": false,
-      "description": "Optional English prompt for a genuine high-value idiom or chunk."
+      "description": "Optional typed-answer prompt specifically testing construction/pronoun behavior."
     },
     {
-      "name": "IdiomAnswerFR",
+      "name": "ConstructionAnswerFR",
       "required": false,
-      "description": "Optional French answer for the idiom production card."
+      "description": "French answer for the construction/pronoun production card."
     },
     {
-      "name": "IdiomAnswerIPA",
+      "name": "ConstructionAnswerIPA",
       "required": false,
-      "description": "Optional broad Parisian IPA for IdiomAnswerFR."
+      "description": "Broad Parisian IPA for ConstructionAnswerFR."
     },
     {
-      "name": "IdiomPronunciationNote",
+      "name": "ConstructionPronunciationNote",
       "required": false,
-      "description": "Optional short practical pronunciation note for the idiom answer."
+      "description": "Short practical pronunciation note for ConstructionAnswerFR."
     },
     {
       "name": "FormPrompt",
       "required": false,
-      "description": "Optional repair prompt for an irregular, confusable, or otherwise high-value isolated form."
+      "description": "Optional repair prompt for an irregular, confusable, pronunciation-sensitive, or otherwise high-value isolated form."
     },
     {
       "name": "FormAnswerFR",
@@ -150,12 +220,12 @@
     {
       "name": "FormPronunciationNote",
       "required": false,
-      "description": "Optional short practical pronunciation note for the isolated form."
+      "description": "Short practical pronunciation note for the isolated form."
     },
     {
       "name": "UsageNote",
       "required": false,
-      "description": "Short note about use, nuance, style, or literary status."
+      "description": "Short note about use, nuance, style, construction restrictions, or literary status."
     },
     {
       "name": "AudioFR",

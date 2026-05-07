@@ -19,11 +19,11 @@ ENUMS = {
     "FrequencyTier": {"high", "medium", "literary"},
 }
 
-IDIOM_FIELDS = [
-    "IdiomPromptEN",
-    "IdiomAnswerFR",
-    "IdiomAnswerIPA",
-    "IdiomPronunciationNote",
+CONSTRUCTION_PRODUCTION_FIELDS = [
+    "ConstructionPromptEN",
+    "ConstructionAnswerFR",
+    "ConstructionAnswerIPA",
+    "ConstructionPronunciationNote",
 ]
 
 FORM_REPAIR_FIELDS = [
@@ -229,7 +229,14 @@ def validate_tsv(
                 errors.append(f"Line {line_number}: required field {name} is blank.")
 
         errors.extend(validate_enum_fields(row, line_number))
-        errors.extend(validate_optional_group(row, line_number, "Idiom", IDIOM_FIELDS))
+        errors.extend(
+            validate_optional_group(
+                row,
+                line_number,
+                "Construction production",
+                CONSTRUCTION_PRODUCTION_FIELDS,
+            )
+        )
         errors.extend(
             validate_optional_group(row, line_number, "Form repair", FORM_REPAIR_FIELDS)
         )

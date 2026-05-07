@@ -1,77 +1,30 @@
 # Anki Template Snippets
 
-Use Anki's built-in typed-answer syntax for `FrenchCards`. This strengthens written recall without adding fields or changing the TSV format.
+Use Anki's built-in typed-answer syntax for `FrenchCards`. This strengthens written recall without adding typed-answer fields.
 
-## Core Production
+The live `FrenchCards` templates should have these card types:
 
-Front template:
+- Core Production: `{{type:CoreAnswerFR}}`
+- Construction Production: `{{type:ConstructionAnswerFR}}`
+- Form Repair: `{{type:FormAnswerFR}}`
 
-```html
-<div class="prompt">{{CorePromptEN}}</div>
-<div class="typed-answer">{{type:CoreAnswerFR}}</div>
-```
+The back templates should show construction metadata prominently:
 
-Back template:
+- `ConstructionFR`
+- `ConstructionMeaningEN`
+- `SemanticFrame`
+- `ValencyClass`
+- `ArgumentStructure`
+- `ArgumentSlots`
+- `ComplementTypes`
+- `PrepositionBehavior`
+- `PronounBehavior`
+- `CliticOrderNote`
+- `ConstructionConstraints`
+- `ConstructionContrastNote`
+- `AllowedForms`
 
-```html
-{{FrontSide}}
-
-<hr>
-
-<div class="answer">{{CoreAnswerFR}}</div>
-<div class="ipa">{{CoreAnswerIPA}}</div>
-{{#CorePronunciationNote}}<div class="note">{{CorePronunciationNote}}</div>{{/CorePronunciationNote}}
-{{#AlternateAcceptedAnswers}}<div class="note">Also accepted: {{AlternateAcceptedAnswers}}</div>{{/AlternateAcceptedAnswers}}
-{{#UsageNote}}<div class="note">{{UsageNote}}</div>{{/UsageNote}}
-```
-
-## Idiom Production
-
-Front template:
-
-```html
-{{#IdiomPromptEN}}
-<div class="prompt">{{IdiomPromptEN}}</div>
-<div class="typed-answer">{{type:IdiomAnswerFR}}</div>
-{{/IdiomPromptEN}}
-```
-
-Back template:
-
-```html
-{{FrontSide}}
-
-<hr>
-
-<div class="answer">{{IdiomAnswerFR}}</div>
-<div class="ipa">{{IdiomAnswerIPA}}</div>
-{{#IdiomPronunciationNote}}<div class="note">{{IdiomPronunciationNote}}</div>{{/IdiomPronunciationNote}}
-```
-
-## Form Repair
-
-Front template:
-
-```html
-{{#FormPrompt}}
-<div class="prompt">{{FormPrompt}}</div>
-<div class="typed-answer">{{type:FormAnswerFR}}</div>
-{{/FormPrompt}}
-```
-
-Back template:
-
-```html
-{{FrontSide}}
-
-<hr>
-
-<div class="answer">{{FormAnswerFR}}</div>
-<div class="ipa">{{FormAnswerIPA}}</div>
-{{#FormPronunciationNote}}<div class="note">{{FormPronunciationNote}}</div>{{/FormPronunciationNote}}
-```
-
-## Notes
+This lets each card teach the function signature of the French construction while still testing the exact written answer.
 
 Do not add separate typed-answer fields unless you want a different accepted answer from the displayed answer. For this deck, the existing answer fields are the right typing targets.
 

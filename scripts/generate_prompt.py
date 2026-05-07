@@ -23,6 +23,8 @@ TEMPLATE_PATH = ROOT / "prompts" / "base_prompt.md"
 REQUIRED_PLACEHOLDERS = {
     "VERB",
     "OPTIONAL_MEANING",
+    "CONSTRUCTION_TARGET",
+    "CONSTRUCTION_METADATA",
     "NOTE_TYPE",
     "FIELD_ORDER",
     "FIELD_SUMMARY",
@@ -36,7 +38,6 @@ REQUIRED_PLACEHOLDERS = {
     "OUTPUT_INSTRUCTIONS",
     "SUBJECT_POLICY",
     "SCOPE_LABEL",
-    "IDIOM_POLICY",
     "FORM_REPAIR_POLICY",
 }
 
@@ -49,15 +50,19 @@ def read_text(path: Path) -> str:
         raise SystemExit(f"Missing required file: {path}") from exc
 
 
-def load_field_spec(path: Path) -> dict:
-    """Load and lightly validate the canonical FrenchCards field spec."""
+def load_json(path: Path) -> dict:
+    """Load a UTF-8 JSON file."""
     try:
-        spec = json.loads(path.read_text(encoding="utf-8"))
+        return json.loads(path.read_text(encoding="utf-8"))
     except FileNotFoundError as exc:
         raise SystemExit(f"Missing required file: {path}") from exc
     except json.JSONDecodeError as exc:
         raise SystemExit(f"Invalid JSON in {path}: {exc}") from exc
 
+
+def load_field_spec(path: Path) -> dict:
+    """Load and lightly validate the canonical FrenchCards field spec."""
+    spec = load_json(path)
     fields = spec.get("fields")
     field_count = spec.get("field_count")
     if not isinstance(fields, list) or not fields:
@@ -67,16 +72,6 @@ def load_field_spec(path: Path) -> dict:
             f"{path} field_count is {field_count}, but {len(fields)} fields were found."
         )
     return spec
-
-
-def load_json(path: Path) -> dict:
-    """Load a UTF-8 JSON file."""
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except FileNotFoundError as exc:
-        raise SystemExit(f"Missing required file: {path}") from exc
-    except json.JSONDecodeError as exc:
-        raise SystemExit(f"Invalid JSON in {path}: {exc}") from exc
 
 
 def field_order_text(fields: list[dict]) -> str:
@@ -108,24 +103,52 @@ def subject_policy_text(subjects: str) -> str:
     )
 
 
-def idiom_policy_text(choice: str) -> str:
-    """Describe how idiom fields should be handled."""
-    policies = {
-        "auto": "auto. Fill idiom fields only for genuine high-value idioms or chunks.",
-        "always": "always. Include idiom fields wherever a strong, natural high-value idiom or chunk can be made.",
-        "never": "never. Leave all idiom fields blank.",
-    }
-    return policies[choice]
-
-
 def form_repair_policy_text(choice: str) -> str:
     """Describe how form repair fields should be handled."""
     policies = {
-        "auto": "auto. Fill form repair fields only when the form is irregular, confusable, or worth isolating.",
+        "auto": "auto. Fill form repair fields only when the form is irregular, confusable, pronunciation-sensitive, or worth isolating.",
         "always": "always. Include form repair fields for every row with a concise isolated target form.",
         "never": "never. Leave all form repair fields blank.",
     }
     return policies[choice]
+
+
+def construction_target_text(args: argparse.Namespace) -> str:
+    """Render construction target summary."""
+    if args.construction_fr:
+        return f"Target construction: `{args.construction_fr}`"
+    return (
+        "Target construction: not supplied; infer one high-value construction for this "
+        "verb and keep the entire TSV limited to that construction."
+    )
+
+
+def construction_metadata_text(args: argparse.Namespace) -> str:
+    """Render optional construction metadata supplied by the user."""
+    items = [
+        ("ConstructionID", args.construction_id),
+        ("ConstructionMeaningEN", args.construction_meaning),
+        ("SemanticFrame", args.semantic_frame),
+        ("ValencyClass", args.valency_class),
+        ("ArgumentStructure", args.argument_structure),
+        ("ArgumentSlots", args.argument_slots),
+        ("ComplementTypes", args.complement_types),
+        ("PrepositionBehavior", args.preposition_behavior),
+        ("PronounBehavior", args.pronoun_behavior),
+        ("CliticOrderNote", args.clitic_order_note),
+        ("ConstructionConstraints", args.construction_constraints),
+        ("ConstructionContrastNote", args.construction_contrast_note),
+        ("AllowedForms", args.allowed_forms),
+    ]
+    filled = [(name, value) for name, value in items if value]
+    if not filled:
+        return (
+            "Construction metadata: not supplied; infer accurate construction metadata "
+            "and keep it consistent across rows."
+        )
+    lines = ["Construction metadata supplied by user:"]
+    lines.extend(f"- {name}: `{value}`" for name, value in filled)
+    return "\n".join(lines)
 
 
 def conjugation_targets_text(scope: str) -> str:
@@ -156,14 +179,17 @@ def audit_rules_text(field_count: int) -> str:
 - optional blanks are represented by empty cells, not omitted columns
 - no tabs or line breaks inside cell content
 
-2. CONJUGATION AUDIT
+2. CONSTRUCTION AND CONJUGATION AUDIT
 - the French answer actually contains the target form for this verb, mood, tense, and person
+- the French answer uses the target construction, not another construction of the same root verb
 - the person and `SubjectFR` are correct
 - imperative rows only use `tu`, `nous`, and `vous`
 - non-finite rows use `Person = N/A` and `SubjectFR = —`
+- construction metadata is consistent with syntax, complement behavior, and pronoun behavior
 
 3. NATURALNESS AUDIT
 - English prompts are natural and varied
+- English prompts cue the correct tense, mood, and construction
 - French answers are natural, concise, and high-value for learning
 - avoid awkward literal translations when better French exists
 - avoid near-duplicate prompts whenever reasonably possible
@@ -171,10 +197,11 @@ def audit_rules_text(field_count: int) -> str:
 4. PRONUNCIATION AUDIT
 - IPA is broad modern Parisian / standard metropolitan
 - pronunciation notes are short and practical
+- liaison, elision, enchaînement, nasal vowels, silent final consonants, h aspiré behavior, and /y/ vs /u/ are noted when relevant
 - no overlong phonetics essays
 
 5. OPTIONAL-FIELD AUDIT
-- idiom fields are only filled when there is a genuine idiom or high-value chunk
+- construction-production fields are only filled when there is a genuine construction behavior or reusable chunk worth isolating
 - form repair fields are only filled when justified
 - unused optional fields are left blank
 
@@ -187,7 +214,7 @@ def audit_rules_text(field_count: int) -> str:
 - no prose before or after
 - no code fences
 - no extra blank lines at start or end
-- no replacement question marks or mojibake in French, IPA, tense labels, or form prompts"""
+- no replacement question marks or mojibake in French, IPA, tense labels, construction fields, or form prompts"""
 
 
 def output_instructions_text(field_count: int) -> str:
@@ -282,12 +309,16 @@ def build_prompt(args: argparse.Namespace) -> str:
     fields = spec["fields"]
     field_count = spec["field_count"]
     optional_meaning = (
-        f"Provided English meaning: `{args.meaning}`" if args.meaning else "Provided English meaning: not supplied; infer the compact core meaning."
+        f"Provided root verb meaning: `{args.meaning}`"
+        if args.meaning
+        else "Provided root verb meaning: not supplied; infer the compact broad root meaning."
     )
 
     values = {
         "VERB": args.verb,
         "OPTIONAL_MEANING": optional_meaning,
+        "CONSTRUCTION_TARGET": construction_target_text(args),
+        "CONSTRUCTION_METADATA": construction_metadata_text(args),
         "NOTE_TYPE": spec["note_type"],
         "FIELD_ORDER": field_order_text(fields),
         "FIELD_SUMMARY": field_summary_text(fields),
@@ -301,7 +332,6 @@ def build_prompt(args: argparse.Namespace) -> str:
         "OUTPUT_INSTRUCTIONS": output_instructions_text(field_count),
         "SUBJECT_POLICY": subject_policy_text(args.subjects),
         "SCOPE_LABEL": args.scope,
-        "IDIOM_POLICY": idiom_policy_text(args.include_idioms),
         "FORM_REPAIR_POLICY": form_repair_policy_text(args.include_form_repair),
     }
     return render_template(read_text(TEMPLATE_PATH), values)
@@ -310,21 +340,29 @@ def build_prompt(args: argparse.Namespace) -> str:
 def parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(
-        description="Generate a strict prompt for FrenchCards TSV production."
+        description="Generate a strict construction-aware prompt for FrenchCards TSV production."
     )
     parser.add_argument("--verb", required=True, help="French infinitive to generate.")
-    parser.add_argument("--meaning", help="Optional compact English meaning.")
+    parser.add_argument("--meaning", help="Optional broad English root meaning.")
+    parser.add_argument("--construction-id", help="Stable construction identifier.")
+    parser.add_argument("--construction-fr", help="Target French construction pattern.")
+    parser.add_argument("--construction-meaning", help="English meaning of the construction.")
+    parser.add_argument("--semantic-frame", help="Semantic frame label.")
+    parser.add_argument("--valency-class", help="Valency class for the construction.")
+    parser.add_argument("--argument-structure", help="Function-signature style argument structure.")
+    parser.add_argument("--argument-slots", help="Semicolon-separated construction input slots.")
+    parser.add_argument("--complement-types", help="Allowed complement types.")
+    parser.add_argument("--preposition-behavior", help="Required preposition behavior.")
+    parser.add_argument("--pronoun-behavior", help="Pronoun behavior for complements.")
+    parser.add_argument("--clitic-order-note", help="Relevant clitic order note.")
+    parser.add_argument("--construction-constraints", help="Construction restrictions or constraints.")
+    parser.add_argument("--construction-contrast-note", help="Contrast with nearby constructions.")
+    parser.add_argument("--allowed-forms", help="Natural forms for this construction.")
     parser.add_argument(
         "--scope",
         choices=("full", "modern", "literary"),
         default="full",
         help="Conjugation coverage scope.",
-    )
-    parser.add_argument(
-        "--include-idioms",
-        choices=("auto", "always", "never"),
-        default="auto",
-        help="How to fill optional idiom fields.",
     )
     parser.add_argument(
         "--include-form-repair",

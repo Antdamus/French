@@ -6,7 +6,7 @@ Target verb: `{{VERB}}`
 Scope: `{{SCOPE_LABEL}}`
 Subject policy: `{{SUBJECT_POLICY}}`
 
-Your job is to audit the TSV for structure, conjugation accuracy, broad Parisian IPA quality, naturalness, register, and pedagogy. Do not rewrite the whole TSV unless explicitly asked. Find problems precisely.
+Your job is to audit the TSV for structure, construction accuracy, valency metadata, conjugation accuracy, broad Parisian IPA quality, liaison/pronunciation notes, naturalness, register, and pedagogy. Do not rewrite the whole TSV unless explicitly asked. Find problems precisely.
 
 ## Canonical Field Order
 
@@ -34,13 +34,22 @@ Check:
 
 1. Structure
 - no header row
-- every row has exactly 32 fields
+- every row has exactly the canonical number of fields
 - field order matches `FrenchCards`
 - required fields are not blank
 - optional blanks are represented by empty cells
 - no tabs or line breaks inside cell content
 
-2. Conjugation
+2. Construction And Valency
+- every row stays inside the target construction
+- `ConstructionFR`, `ConstructionMeaningEN`, `SemanticFrame`, and `ValencyClass` are accurate
+- `ArgumentStructure`, `ArgumentSlots`, and `ComplementTypes` correctly describe the construction's inputs
+- `PrepositionBehavior` is accurate for à/de/zero-preposition behavior
+- `PronounBehavior` correctly distinguishes le/la/les, lui/leur, y, en, tonic pronouns, and reflexive pronouns
+- `CliticOrderNote`, `ConstructionConstraints`, and `ConstructionContrastNote` are filled when useful and not noisy
+- the construction metadata matches the actual French answer
+
+3. Conjugation
 - `CoreAnswerFR` contains the exact target form for `Verb`, `Mood`, `Tense`, `Person`, and `SubjectFR`
 - imperative rows use only `tu`, `nous`, and `vous`
 - non-finite rows use `Person = N/A` and `SubjectFR = —`
@@ -48,17 +57,19 @@ Check:
 - merged subject rows, when allowed, use slash-separated labels and do not hide important production differences
 - literary forms are correct and labeled accurately
 
-3. IPA
+4. IPA And Pronunciation
 - IPA is broad modern Parisian / standard metropolitan French
 - IPA covers the full answer, not only the target form
-- liaison, elision, nasal vowels, semivowels, and silent final consonants are handled correctly where relevant
+- liaison, elision, enchaînement, nasal vowels, semivowels, h aspiré, /y/, and silent final consonants are handled correctly where relevant
 - pronunciation notes are short and practical
+- liaison rules are explicitly noted when they are production-sensitive
 
-4. Naturalness And Pedagogy
+5. Naturalness And Pedagogy
 - English prompts are natural and varied
+- English prompts cue the correct tense, mood, and construction
 - French answers are concise, idiomatic, and useful
 - rows avoid awkward literal translation
-- optional idiom fields are genuinely high-value
+- construction-production fields are genuinely high-value
 - optional form repair fields are justified
 - usage notes are accurate and not noisy
 
