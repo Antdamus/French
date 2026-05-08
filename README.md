@@ -29,19 +29,21 @@ Examples:
 
 Each of these can have different meaning, argument slots, complement types, preposition behavior, and pronoun behavior.
 
+Generated files should also include a controlled mix of affirmative and negative production. For spoken or mixed-register rows, conversational French may drop `ne` in the main answer, while the full standard form belongs in `AlternateAcceptedAnswers` or `UsageNote`.
+
+They should also include ordinary interaction patterns when useful: questions, pronominalization drills, register contrasts, and clitic behavior. The goal is to practice how the construction actually appears in use, not only declarative affirmative sentences.
+
 ## Card Types
 
-`FrenchCards` has exactly 3 card types:
+`FrenchCards` has exactly 2 card types:
 
 - **Core Production**: the main typed card, driven by `CorePromptEN -> CoreAnswerFR`.
 - **Construction Production**: optional typed card for valency, pronoun, preposition, reflexive, clitic, or reusable construction behavior.
-- **Form Repair**: optional typed card for irregular, confusable, or pronunciation-sensitive isolated forms.
 
 Each card should use Anki's built-in typed-answer syntax:
 
 - `{{type:CoreAnswerFR}}` on Core Production
 - `{{type:ConstructionAnswerFR}}` on Construction Production
-- `{{type:FormAnswerFR}}` on Form Repair
 
 Template notes are documented in [specs/anki_template_snippets.md](specs/anki_template_snippets.md).
 
@@ -70,17 +72,20 @@ Construction-aware prompt:
 python scripts/generate_prompt.py \
   --verb avoir \
   --meaning "to have" \
-  --construction-id avoir_besoin_de_qqch \
-  --construction-fr "avoir besoin de quelque chose" \
-  --construction-meaning "to need something" \
+  --construction-id avoir_besoin_de \
+  --construction-fr "avoir besoin de + complément" \
+  --construction-meaning "to need something/someone; to need to do something" \
   --semantic-frame "need/requirement" \
-  --valency-class "de-complement" \
-  --argument-structure "subject experiencer + avoir besoin de + needed thing/action" \
+  --valency-class "de-complement with subpatterns" \
+  --argument-structure "subject experiencer + avoir besoin de + needed complement" \
   --argument-slots "subject; de-complement" \
-  --complement-types "de + noun; de + infinitive; thing/idea/action" \
-  --preposition-behavior "requires de before the needed complement" \
-  --pronoun-behavior "de + thing/idea/action -> en" \
-  --construction-contrast-note "avoir quelque chose uses direct object pronouns le/la/les; avoir besoin de uses en" \
+  --complement-types "de + thing/idea noun phrase; de + infinitive/action; de + person" \
+  --subpatterns "thing/idea -> en; infinitive/action -> en when referring back to the action as an idea; person -> de + stressed pronoun, not normally en" \
+  --preposition-behavior "requires de before the needed complement; de elides to d’ before a vowel" \
+  --pronoun-behavior "thing/idea/action complements can be replaced by en; specific people normally use de moi/toi/lui/elle/nous/vous/eux/elles" \
+  --clitic-order-note "en precedes the conjugated verb or auxiliary; in infinitive phrases en precedes avoir" \
+  --construction-constraints "do not say j’en ai besoin de X in neutral French; use either j’ai besoin de X or j’en ai besoin" \
+  --construction-contrast-note "avoir quelque chose uses direct object pronouns le/la/les; avoir besoin de uses de-complement behavior" \
   --allowed-forms "ordinary finite forms; infinitive; participles; gerund; imperative only when semantically natural" \
   --scope full \
   --subjects split
@@ -112,7 +117,7 @@ For a complete generated construction file, you can also check target coverage:
 python scripts/validate_tsv.py --input returned.tsv --scope full --subjects split --check-coverage
 ```
 
-The validator checks field count, required fields, enum fields, `AudioFR`, imperative and non-finite policies, known mood/tense combinations, optional construction-production groups, optional form-repair groups, and target coverage when requested.
+The validator checks field count, required fields, enum fields, tense-reference fields, `AudioFR`, imperative and non-finite policies, known mood/tense combinations, optional construction-production groups, and target coverage when requested.
 
 ## Review Returned TSV
 

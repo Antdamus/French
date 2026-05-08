@@ -203,24 +203,24 @@
       "description": "Short practical pronunciation note for ConstructionAnswerFR."
     },
     {
-      "name": "FormPrompt",
-      "required": false,
-      "description": "Optional repair prompt for an irregular, confusable, pronunciation-sensitive, or otherwise high-value isolated form."
+      "name": "TenseOverview",
+      "required": true,
+      "description": "Brief plain-English orientation for the current mood/tense or non-finite form, such as completed past, background past, future completion, hypothetical, or literary narrative form."
     },
     {
-      "name": "FormAnswerFR",
-      "required": false,
-      "description": "Optional isolated French form answer."
+      "name": "TenseUseNote",
+      "required": true,
+      "description": "Operational note explaining when to use the current mood/tense in production."
     },
     {
-      "name": "FormAnswerIPA",
-      "required": false,
-      "description": "Optional broad Parisian IPA for FormAnswerFR."
+      "name": "TenseParadigmFR",
+      "required": true,
+      "description": "The target verb conjugated across the relevant pronouns/forms for the current mood/tense, in French."
     },
     {
-      "name": "FormPronunciationNote",
-      "required": false,
-      "description": "Short practical pronunciation note for the isolated form."
+      "name": "TenseParadigmIPA",
+      "required": true,
+      "description": "Broad modern Parisian / standard metropolitan French IPA for TenseParadigmFR."
     },
     {
       "name": "UsageNote",

@@ -26,14 +26,6 @@ CONSTRUCTION_PRODUCTION_FIELDS = [
     "ConstructionPronunciationNote",
 ]
 
-FORM_REPAIR_FIELDS = [
-    "FormPrompt",
-    "FormAnswerFR",
-    "FormAnswerIPA",
-    "FormPronunciationNote",
-]
-
-
 def load_json(path: Path) -> dict:
     """Load a UTF-8 JSON file."""
     try:
@@ -236,9 +228,6 @@ def validate_tsv(
                 "Construction production",
                 CONSTRUCTION_PRODUCTION_FIELDS,
             )
-        )
-        errors.extend(
-            validate_optional_group(row, line_number, "Form repair", FORM_REPAIR_FIELDS)
         )
         errors.extend(
             validate_target_policy(row, line_number, target_spec, targets, scope, subjects)

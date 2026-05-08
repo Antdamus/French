@@ -38,7 +38,6 @@ REQUIRED_PLACEHOLDERS = {
     "OUTPUT_INSTRUCTIONS",
     "SUBJECT_POLICY",
     "SCOPE_LABEL",
-    "FORM_REPAIR_POLICY",
 }
 
 
@@ -103,16 +102,6 @@ def subject_policy_text(subjects: str) -> str:
     )
 
 
-def form_repair_policy_text(choice: str) -> str:
-    """Describe how form repair fields should be handled."""
-    policies = {
-        "auto": "auto. Fill form repair fields only when the form is irregular, confusable, pronunciation-sensitive, or worth isolating.",
-        "always": "always. Include form repair fields for every row with a concise isolated target form.",
-        "never": "never. Leave all form repair fields blank.",
-    }
-    return policies[choice]
-
-
 def construction_target_text(args: argparse.Namespace) -> str:
     """Render construction target summary."""
     if args.construction_fr:
@@ -133,6 +122,7 @@ def construction_metadata_text(args: argparse.Namespace) -> str:
         ("ArgumentStructure", args.argument_structure),
         ("ArgumentSlots", args.argument_slots),
         ("ComplementTypes", args.complement_types),
+        ("ConstructionSubpatterns", args.subpatterns),
         ("PrepositionBehavior", args.preposition_behavior),
         ("PronounBehavior", args.pronoun_behavior),
         ("CliticOrderNote", args.clitic_order_note),
@@ -184,38 +174,50 @@ def audit_rules_text(field_count: int) -> str:
 - the French answer uses the target construction, not another construction of the same root verb
 - the person and `SubjectFR` are correct
 - imperative rows only use `tu`, `nous`, and `vous`
-- non-finite rows use `Person = N/A` and `SubjectFR = —`
+- non-finite rows use `Person = N/A` and `SubjectFR = ?`
 - construction metadata is consistent with syntax, complement behavior, and pronoun behavior
+- if the construction has subpatterns, the file rotates them intentionally and the metadata explains the pronoun behavior for each complement type
 
 3. NATURALNESS AUDIT
 - English prompts are natural and varied
+- English prompts are grammatically correct, including subject-verb agreement
 - English prompts cue the correct tense, mood, and construction
+- negative rows are included when useful, with spoken dropped-ne only in appropriate spoken or mixed contexts
+- question rows are included when useful, with question strategy matching register
+- register contrasts are marked when they affect the expected answer
+- clitic behavior is taught when the construction naturally supports it, without artificial stacks
 - French answers are natural, concise, and high-value for learning
 - avoid awkward literal translations when better French exists
 - avoid near-duplicate prompts whenever reasonably possible
 
-4. PRONUNCIATION AUDIT
+4. TENSE REFERENCE AUDIT
+- `TenseOverview` correctly identifies the practical time/aspect/mood value
+- `TenseUseNote` gives a useful operational rule
+- `TenseParadigmFR` matches the current mood/tense of the target verb
+- `TenseParadigmIPA` matches `TenseParadigmFR` in broad modern Parisian IPA
+
+5. PRONUNCIATION AUDIT
 - IPA is broad modern Parisian / standard metropolitan
 - pronunciation notes are short and practical
-- liaison, elision, enchaînement, nasal vowels, silent final consonants, h aspiré behavior, and /y/ vs /u/ are noted when relevant
+- liaison, elision, encha?nement, nasal vowels, silent final consonants, h aspir? behavior, and /y/ vs /u/ are noted when relevant
 - no overlong phonetics essays
 
-5. OPTIONAL-FIELD AUDIT
+6. OPTIONAL-FIELD AUDIT
+- construction-production fields are all-filled or all-blank; no partially filled construction-production groups
 - construction-production fields are only filled when there is a genuine construction behavior or reusable chunk worth isolating
-- form repair fields are only filled when justified
+- construction-production prompts test useful transformations, such as pronominalization, when that is the construction behavior being isolated
 - unused optional fields are left blank
 
-6. LITERARY-SCOPE AUDIT
+7. LITERARY-SCOPE AUDIT
 - literary forms are treated as active-production targets too
 - literary labels and usage notes are accurate and not mixed carelessly with spoken-only labels
 
-7. FINAL TSV AUDIT
+8. FINAL TSV AUDIT
 - output contains only TSV rows
 - no prose before or after
 - no code fences
 - no extra blank lines at start or end
-- no replacement question marks or mojibake in French, IPA, tense labels, construction fields, or form prompts"""
-
+- no replacement question marks or mojibake in French, IPA, tense labels, construction fields, or prompts"""
 
 def output_instructions_text(field_count: int) -> str:
     """Return strict TSV output requirements."""
@@ -332,7 +334,6 @@ def build_prompt(args: argparse.Namespace) -> str:
         "OUTPUT_INSTRUCTIONS": output_instructions_text(field_count),
         "SUBJECT_POLICY": subject_policy_text(args.subjects),
         "SCOPE_LABEL": args.scope,
-        "FORM_REPAIR_POLICY": form_repair_policy_text(args.include_form_repair),
     }
     return render_template(read_text(TEMPLATE_PATH), values)
 
@@ -352,6 +353,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--argument-structure", help="Function-signature style argument structure.")
     parser.add_argument("--argument-slots", help="Semicolon-separated construction input slots.")
     parser.add_argument("--complement-types", help="Allowed complement types.")
+    parser.add_argument(
+        "--subpatterns",
+        help=(
+            "Optional semicolon-separated subpatterns to rotate inside one construction, "
+            "such as thing -> en; infinitive -> en as known idea; person -> de + stressed pronoun."
+        ),
+    )
     parser.add_argument("--preposition-behavior", help="Required preposition behavior.")
     parser.add_argument("--pronoun-behavior", help="Pronoun behavior for complements.")
     parser.add_argument("--clitic-order-note", help="Relevant clitic order note.")
@@ -363,12 +371,6 @@ def parse_args() -> argparse.Namespace:
         choices=("full", "modern", "literary"),
         default="full",
         help="Conjugation coverage scope.",
-    )
-    parser.add_argument(
-        "--include-form-repair",
-        choices=("auto", "always", "never"),
-        default="auto",
-        help="How to fill optional form repair fields.",
     )
     parser.add_argument(
         "--subjects",

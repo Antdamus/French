@@ -18,7 +18,7 @@ Use the pronunciation note fields actively:
 
 - `CorePronunciationNote` for the main sentence
 - `ConstructionPronunciationNote` for construction/pronoun cards
-- `FormPronunciationNote` for isolated forms
+- `TenseParadigmIPA` for the tense paradigm reference
 
 Fill the relevant note field when the answer contains a production-sensitive issue:
 
@@ -36,7 +36,9 @@ Leave the note blank only when there is no useful pronunciation warning.
 
 ## Liaison Guidance
 
-Call out liaison when it helps production, especially in common verb forms:
+Call out liaison when it helps production, and say whether it is required, optional, or blocked.
+
+Required or expected liaison in careful standard speech:
 
 - `nous avons` → /nuz‿avɔ̃/
 - `vous avez` → /vuz‿ave/
@@ -46,13 +48,27 @@ Call out liaison when it helps production, especially in common verb forms:
 - `vous avez eu` → /vuz‿avez‿y/
 - `ils ont eu` → /ilz‿ɔ̃t‿y/
 
-Do not invent liaison where standard French would not normally make one. Note h aspiré when it blocks elision or liaison.
+These are required or strongly expected because subject pronouns and many clitic-like function words link to a following vowel-initial verb in careful speech.
+
+Optional liaison:
+
+- often appears in careful/formal speech after short adverbs or prepositions, but may be absent in ordinary speech
+- should be marked as optional if the learner can safely omit it in normal conversation
+
+Forbidden or blocked liaison:
+
+- no liaison after `et`
+- no liaison before h aspiré
+- avoid liaison across a strong syntactic break
+
+Do not invent liaison where standard French would not normally make one.
 
 ## Good Note Style
 
 - `Elide je before ai.`
-- `Liaison in nous avons.`
-- `Liaison from avez into eu.`
+- `Required liaison: nous avons links /z/ before vowel.`
+- `Required liaison from avez into eu.`
+- `Optional liaison in careful speech; often omitted casually.`
 - `Final t in eut is normally silent.`
 - `Watch the nasal vowel /ɔ̃/.`
 - `Watch /y/ in eu.`

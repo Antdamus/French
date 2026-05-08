@@ -8,11 +8,10 @@ Target verb: `{{VERB}}`
 {{CONSTRUCTION_METADATA}}
 Scope: `{{SCOPE_LABEL}}`
 Subject policy: `{{SUBJECT_POLICY}}`
-Form repair policy: `{{FORM_REPAIR_POLICY}}`
 
 This is an active-production deck, not a recognition deck. Generate one note per exact target form inside the target construction, with one main production sentence per note.
 
-Important: the target is a verb construction, not the whole dictionary verb. Keep the same `ConstructionID`, `ConstructionFR`, `ConstructionMeaningEN`, `SemanticFrame`, `ValencyClass`, `ArgumentStructure`, `ArgumentSlots`, `ComplementTypes`, `PrepositionBehavior`, `PronounBehavior`, `CliticOrderNote`, `ConstructionConstraints`, `ConstructionContrastNote`, and `AllowedForms` metadata consistent across rows unless a row-specific restriction genuinely applies.
+Important: the target is a verb construction, not the whole dictionary verb. If the construction has complement subpatterns, rotate them deliberately across rows while keeping the construction identity stable. Keep the same `ConstructionID`, `ConstructionFR`, `ConstructionMeaningEN`, `SemanticFrame`, `ValencyClass`, `ArgumentStructure`, `ArgumentSlots`, `ComplementTypes`, `PrepositionBehavior`, `PronounBehavior`, `CliticOrderNote`, `ConstructionConstraints`, `ConstructionContrastNote`, and `AllowedForms` metadata consistent across rows unless a row-specific restriction genuinely applies.
 
 ## Canonical Field Order
 
